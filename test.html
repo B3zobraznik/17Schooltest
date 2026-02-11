@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест информатика 11</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .start-screen {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .start-screen.hidden {
+            display: none;
+        }
+
+        .start-content {
+            padding: 80px 60px;
+            max-width: 600px;
+        }
+
+        .start-content h1 {
+            font-size: 54px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            line-height: 1.2;
+        }
+
+        .start-content p {
+            font-size: 17px;
+            color: #aaa;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .start-button {
+            margin-top: 55px;
+            padding: 16px 70px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #0a0a0a;
+            background: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            letter-spacing: 0.3px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 25px 50px rgba(255, 255, 255, 0.15);
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        @keyframes burst {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        .test-screen {
+            display: none;
+            width: 100%;
+            max-width: 850px;
+            position: relative;
+            z-index: 5;
+            padding: 0 20px;
+        }
+
+        .test-screen.active {
+            display: block;
+        }
+
+        .test-header {
+            padding: 35px 45px;
+            margin-bottom: 25px;
+            background: #111;
+            border: 1px solid #1a1a1a;
+            border-radius: 10px;
+        }
+
+        .test-header h2 {
+            font-size: 19px;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 2px;
+            background: #222;
+            border-radius: 1px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #fff;
+            transition: width 0.4s ease;
+        }
+
+        .test-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            letter-spacing: 0.2px;
+        }
+
+        .test-content {
+            padding: 55px 45px;
+            background: #111;
+            border: 1px solid #1a1a1a;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .question-block {
+            display: none;
+        }
+
+        .question-block.active {
+            display: block;
+            animation: slideIn 0.35s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-number {
+            font-size: 11px;
+            color: #555;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .question-text {
+            font-size: 21px;
+            margin-bottom: 35px;
+            font-weight: 600;
+            line-height: 1.6;
+            letter-spacing: -0.3px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 16px 18px;
+            border: 1px solid #2a2a2a;
+            border-radius: 6px;
+            cursor: pointer;
+            background: transparent;
+            transition: all 0.2s ease;
+            font-size: 15px;
+            color: #bbb;
+            position: relative;
+            text-align: left;
+        }
+
+        .option:hover {
+            border-color: #444;
+            background: rgba(255, 255, 255, 0.02);
+            color: #ddd;
+        }
+
+        .option.selected {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.07);
+            color: #fff;
+        }
+
+        .test-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-button {
+            padding: 12px 32px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            background: transparent;
+            color: #bbb;
+            letter-spacing: 0.2px;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            border-color: #666;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .next-button {
+            border-color: #666;
+            color: #ddd;
+        }
+
+        .nav-button:disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+        }
+
+        .results-screen {
+            display: none;
+            position: relative;
+            z-index: 5;
+        }
+
+        .results-screen.active {
+            display: block;
+        }
+
+        .results-content {
+            padding: 60px 50px;
+            background: #111;
+            border: 1px solid #1a1a1a;
+            border-radius: 10px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .results-title {
+            font-size: 30px;
+            margin-bottom: 45px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .percentage {
+            font-size: 72px;
+            text-align: center;
+            margin-bottom: 55px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 18px 0;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 15px;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #777;
+            font-weight: 500;
+        }
+
+        .result-value {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .download-button {
+            display: block;
+            margin-top: 45px;
+            padding: 14px 30px;
+            width: 100%;
+            background: #fff;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
+        }
+
+        .timer {
+            font-size: 12px;
+            color: #777;
+            font-weight: 600;
+        }
+
+        .social-screen {
+            display: none;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .social-screen.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .social-screen.hidden {
+            display: none;
+        }
+
+        .social-content {
+            position: relative;
+        }
+
+        .byline {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 80px;
+            letter-spacing: -0.5px;
+            animation: fadeInScale 0.8s ease;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .social-buttons {
+            position: relative;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .social-btn {
+            padding: 14px 50px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            background: transparent;
+            color: #ddd;
+            letter-spacing: 0.3px;
+            position: absolute;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .social-btn:hover {
+            border-color: #666;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .tiktok-btn {
+            top: 0;
+        }
+
+        .telegram-btn {
+            bottom: 0;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-3px, -3px) rotate(-1deg); }
+            20% { transform: translate(3px, 3px) rotate(1deg); }
+            30% { transform: translate(-3px, 3px) rotate(-1deg); }
+            40% { transform: translate(3px, -3px) rotate(1deg); }
+            50% { transform: translate(-4px, -4px) rotate(-1.5deg); }
+            60% { transform: translate(4px, 4px) rotate(1.5deg); }
+            70% { transform: translate(-4px, 4px) rotate(-1.5deg); }
+            80% { transform: translate(4px, -4px) rotate(1.5deg); }
+            90% { transform: translate(-5px, -5px) rotate(-2deg); }
+        }
+
+        .social-btn.shaking {
+            animation: shake 0.4s infinite;
+        }
+
+        .social-particle {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        @keyframes socialBurst {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        .social-btn.bursting {
+            animation: socialBurst 0.7s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="start-screen" id="startScreen">
+        <div class="start-content">
+            <h1>ИНФОРМАТИКА 11</h1>
+            <p>Итоговый тест</p>
+            <p>30 вопросов / 60 минут</p>
+            <button class="start-button" id="startButton">НАЧАТЬ ТЕСТ</button>
+        </div>
+    </div>
+
+    <div class="social-screen" id="socialScreen">
+        <div class="social-content">
+            <div class="byline">BY codergiase</div>
+            <div class="social-buttons">
+                <a href="https://www.tiktok.com/@codergiase" target="_blank" class="social-btn tiktok-btn" id="tiktokBtn">TIKTOK</a>
+                <a href="https://t.me/codergiase" target="_blank" class="social-btn telegram-btn" id="telegramBtn">TELEGRAM</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-screen" id="testScreen">
+        <div class="test-header">
+            <h2>ИНФОРМАТИКА 11</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="test-info">
+                <span>Вопрос <span id="currentQuestion">1</span>/30</span>
+                <span class="timer">Время: <span id="timer">00:00</span></span>
+            </div>
+        </div>
+
+        <div class="test-content">
+            <div id="questionsContainer"></div>
+        </div>
+
+        <div class="test-footer">
+            <button class="nav-button" id="prevButton" disabled>НАЗАД</button>
+            <button class="nav-button next-button" id="nextButton">ДАЛЬШЕ</button>
+        </div>
+    </div>
+
+    <div class="results-screen" id="resultsScreen">
+        <div class="results-content">
+            <h1 class="results-title">РЕЗУЛЬТАТЫ</h1>
+            <div class="percentage" id="percentage">0%</div>
+            <div class="result-item">
+                <span class="result-label">Правильно</span>
+                <span class="result-value"><span id="correctCount">0</span>/30</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Неправильно</span>
+                <span class="result-value"><span id="wrongCount">0</span>/30</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Затрачено времени</span>
+                <span class="result-value" id="totalTime">00:00</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Оценка</span>
+                <span class="result-value" id="grade">-</span>
+            </div>
+            <button class="download-button" id="downloadButton">СКАЧАТЬ РЕЗУЛЬТАТЫ</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Что такое алгоритм?",
+                options: ["Последовательность команд для решения задачи", "Программа на языке C++", "Система нумерации", "Базовый тип данных"],
+                correct: 0
+            },
+            {
+                question: "Какой язык программирования является объектно-ориентированным?",
+                options: ["Pascal", "С", "Java", "BASIC"],
+                correct: 2
+            },
+            {
+                question: "Что означает HTML?",
+                options: ["High Tech Markup Language", "HyperText Markup Language", "Home Tool Markup Language", "Hierarchical Text Markup Language"],
+                correct: 1
+            },
+            {
+                question: "Какая база данных использует структуру таблиц?",
+                options: ["Иерархическая БД", "Реляционная БД", "Объектная БД", "Сетевая БД"],
+                correct: 1
+            },
+            {
+                question: "Что такое переменная в программировании?",
+                options: ["Именованное значение, которое изменяется", "Функция программы", "Параметр компилятора", "Тип файла"],
+                correct: 0
+            },
+            {
+                question: "Какой оператор используется для циклов в большинстве языков?",
+                options: ["if", "while", "return", "class"],
+                correct: 1
+            },
+            {
+                question: "Что означает CPU?",
+                options: ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Control Processing Unit"],
+                correct: 0
+            },
+            {
+                question: "Какой протокол используется для отправки электронной почты?",
+                options: ["HTTP", "SMTP", "FTP", "DNS"],
+                correct: 1
+            },
+            {
+                question: "Какая операция выполняет XOR в логике?",
+                options: ["Логическое И", "Логическое ИЛИ", "Исключающее ИЛИ", "Логическое НЕ"],
+                correct: 2
+            },
+            {
+                question: "Сколько бит в одном байте?",
+                options: ["4", "8", "16", "32"],
+                correct: 1
+            },
+            {
+                question: "Что такое рекурсия?",
+                options: ["Циклический процесс", "Функция, вызывающая саму себя", "Массив элементов", "Тип переменной"],
+                correct: 1
+            },
+            {
+                question: "Какой порядок символов в кодировке Unicode?",
+                options: ["ASCII", "UTF-8", "Оба варианта верны", "Ни один из них"],
+                correct: 2
+            },
+            {
+                question: "Что означает API?",
+                options: ["Application Program Interface", "Advanced Programming Integration", "Automated Process Instruction", "Application Process Integration"],
+                correct: 0
+            },
+            {
+                question: "Какая структура данных работает по принципу FIFO?",
+                options: ["Стек", "Очередь", "Дерево", "График"],
+                correct: 1
+            },
+            {
+                question: "Что такое компиляция?",
+                options: ["Исполнение программы", "Преобразование исходного кода в машинный код", "Редактирование текста", "Проверка грамматики"],
+                correct: 1
+            },
+            {
+                question: "Какой метод сортировки имеет сложность O(n log n) в лучшем случае?",
+                options: ["Пузырьковая сортировка", "Сортировка слиянием", "Сортировка выбором", "Сортировка вставками"],
+                correct: 1
+            },
+            {
+                question: "Что означает SQL?",
+                options: ["Simple Query Language", "Structured Query Language", "Standard Query Language", "System Query Language"],
+                correct: 1
+            },
+            {
+                question: "Какой оператор используется для условного ветвления?",
+                options: ["while", "for", "if", "switch"],
+                correct: 2
+            },
+            {
+                question: "Что такое ROM в компьютере?",
+                options: ["Random Access Memory", "Read Only Memory", "Removable Optical Media", "Rapid Output Memory"],
+                correct: 1
+            },
+            {
+                question: "Какой формат файла используется для векторной графики?",
+                options: ["JPEG", "PNG", "SVG", "GIF"],
+                correct: 2
+            },
+            {
+                question: "Что означает IP в IP адресе?",
+                options: ["Information Protocol", "Internet Protocol", "Internal Processing", "Integrated Platform"],
+                correct: 1
+            },
+            {
+                question: "Какая операция имеет наибольший приоритет в выражениях?",
+                options: ["Сложение", "Умножение", "Скобки", "Вычитание"],
+                correct: 2
+            },
+            {
+                question: "Что такое класс в ООП?",
+                options: ["Переменная программы", "Тип данных", "Функция программы", "Шаблон для создания объектов"],
+                correct: 3
+            },
+            {
+                question: "Какой протокол используется для безопасного веб-соединения?",
+                options: ["HTTP", "HTTPS", "FTP", "SMTP"],
+                correct: 1
+            },
+            {
+                question: "Что означает RAM?",
+                options: ["Removable Access Memory", "Random Access Memory", "Read All Memory", "Rapid Access Module"],
+                correct: 1
+            },
+            {
+                question: "Какая структура используется для поиска элемента по ключу?",
+                options: ["Массив", "Список", "Хэш-таблица", "Граф"],
+                correct: 2
+            },
+            {
+                question: "Что такое кэш процессора?",
+                options: ["Быстрая память близкая к процессору", "Виртуальная память", "Буфер клавиатуры", "Система охлаждения"],
+                correct: 0
+            },
+            {
+                question: "Какой язык используется для стилизации веб-страниц?",
+                options: ["HTML", "JavaScript", "CSS", "SQL"],
+                correct: 2
+            },
+            {
+                question: "Что означает параметр в функции?",
+                options: ["Возвращаемое значение", "Входные данные функции", "Тип переменной", "Имя программы"],
+                correct: 1
+            },
+            {
+                question: "Какой алгоритм поиска самый быстрый для отсортированного массива?",
+                options: ["Линейный поиск", "Бинарный поиск", "Поиск в глубину", "Поиск в ширину"],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(30).fill(null);
+        let startTime = null;
+        let timerInterval = null;
+
+        const startButton = document.getElementById("startButton");
+        const startScreen = document.getElementById("startScreen");
+        const testScreen = document.getElementById("testScreen");
+        const resultsScreen = document.getElementById("resultsScreen");
+        const socialScreen = document.getElementById("socialScreen");
+        const nextButton = document.getElementById("nextButton");
+        const prevButton = document.getElementById("prevButton");
+        const questionsContainer = document.getElementById("questionsContainer");
+        const tiktokBtn = document.getElementById("tiktokBtn");
+        const telegramBtn = document.getElementById("telegramBtn");
+
+        startButton.addEventListener("click", startTest);
+        nextButton.addEventListener("click", nextQuestion);
+        prevButton.addEventListener("click", prevQuestion);
+
+        function startTest() {
+            createParticles();
+            startButton.style.pointerEvents = "none";
+
+            setTimeout(() => {
+                startScreen.classList.add("hidden");
+                socialScreen.classList.add("active");
+                setTimeout(startSocialSequence, 100);
+            }, 600);
+        }
+
+        function startSocialSequence() {
+            setTimeout(() => {
+                tiktokBtn.classList.add("shaking");
+                telegramBtn.classList.add("shaking");
+
+                setTimeout(() => {
+                    tiktokBtn.classList.remove("shaking");
+                    telegramBtn.classList.remove("shaking");
+                    burstSocialButtons();
+                }, 2500);
+            }, 500);
+        }
+
+        function burstSocialButtons() {
+            [tiktokBtn, telegramBtn].forEach((btn) => {
+                const rect = btn.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                for (let i = 0; i < 15; i++) {
+                    const particle = document.createElement("div");
+                    particle.className = "social-particle";
+
+                    const size = Math.random() * 16 + 6;
+                    particle.style.width = size + "px";
+                    particle.style.height = size + "px";
+                    particle.style.left = centerX + "px";
+                    particle.style.top = centerY + "px";
+
+                    particle.style.backgroundColor = "#fff";
+                    particle.style.opacity = "0.6";
+
+                    const angle = (Math.PI * 2 * i) / 15;
+                    const velocity = Math.random() * 300 + 200;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
+
+                    particle.style.setProperty("--tx", tx + "px");
+                    particle.style.setProperty("--ty", ty + "px");
+                    particle.style.animation = `socialBurst 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+
+                    document.body.appendChild(particle);
+
+                    setTimeout(() => particle.remove(), 700);
+                }
+
+                btn.classList.add("bursting");
+            });
+
+            setTimeout(() => {
+                socialScreen.classList.remove("active");
+                socialScreen.classList.add("hidden");
+                testScreen.classList.add("active");
+                startTime = Date.now();
+                startTimer();
+                renderQuestions();
+                showQuestion(0);
+            }, 700);
+        }
+
+        function createParticles() {
+            const button = startButton;
+            const rect = button.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement("div");
+                particle.className = "particle";
+
+                const size = Math.random() * 24 + 8;
+                particle.style.width = size + "px";
+                particle.style.height = size + "px";
+                particle.style.left = centerX + "px";
+                particle.style.top = centerY + "px";
+
+                particle.style.backgroundColor = "#fff";
+                particle.style.opacity = "0.7";
+
+                const angle = (Math.PI * 2 * i) / 25;
+                const velocity = Math.random() * 350 + 250;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                particle.style.setProperty("--tx", tx + "px");
+                particle.style.setProperty("--ty", ty + "px");
+                particle.style.animation = `burst 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+
+                document.body.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 750);
+            }
+        }
+
+        function renderQuestions() {
+            let html = "";
+            questions.forEach((q, index) => {
+                html += `<div class="question-block" id="question-${index}">
+                    <div class="question-number">Вопрос ${index + 1} из 30</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options">
+                        ${q.options.map((opt, i) => `
+                            <div class="option" data-question="${index}" data-answer="${i}">${opt}</div>
+                        `).join("")}
+                    </div>
+                </div>`;
+            });
+
+            questionsContainer.innerHTML = html;
+
+            document.querySelectorAll(".option").forEach(option => {
+                option.addEventListener("click", function() {
+                    const question = parseInt(this.dataset.question);
+                    const answer = parseInt(this.dataset.answer);
+
+                    answers[question] = answer;
+
+                    document.querySelectorAll(`[data-question="${question}"]`).forEach(opt => {
+                        opt.classList.remove("selected");
+                    });
+                    this.classList.add("selected");
+
+                    updateProgress();
+                });
+            });
+        }
+
+        function showQuestion(index) {
+            document.querySelectorAll(".question-block").forEach(q => {
+                q.classList.remove("active");
+            });
+
+            document.getElementById(`question-${index}`).classList.add("active");
+            currentQuestion = index;
+
+            document.getElementById("currentQuestion").textContent = index + 1;
+
+            if (answers[index] !== null) {
+                document.querySelectorAll(`[data-question="${index}"]`)[answers[index]].classList.add("selected");
+            }
+
+            prevButton.disabled = index === 0;
+            nextButton.textContent = index === 29 ? "ЗАВЕРШИТЬ" : "ДАЛЬШЕ";
+
+            updateProgress();
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < 29) {
+                showQuestion(currentQuestion + 1);
+            } else {
+                finishTest();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                showQuestion(currentQuestion - 1);
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / 30) * 100;
+            document.getElementById("progressFill").style.width = progress + "%";
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById("timer").textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+            }, 1000);
+        }
+
+        function finishTest() {
+            clearInterval(timerInterval);
+            testScreen.classList.remove("active");
+            resultsScreen.classList.add("active");
+
+            let correct = 0;
+            answers.forEach((answer, index) => {
+                if (answer === questions[index].correct) {
+                    correct++;
+                }
+            });
+
+            const incorrect = 30 - correct;
+            const percentage = Math.round((correct / 30) * 100);
+
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+
+            let grade = "2";
+            if (percentage >= 90) grade = "5";
+            else if (percentage >= 75) grade = "4";
+            else if (percentage >= 60) grade = "3";
+
+            document.getElementById("percentage").textContent = percentage + "%";
+            document.getElementById("correctCount").textContent = correct;
+            document.getElementById("wrongCount").textContent = incorrect;
+            document.getElementById("totalTime").textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+            document.getElementById("grade").textContent = grade;
+
+            document.getElementById("downloadButton").addEventListener("click", () => {
+                downloadResults(correct, incorrect, percentage, `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`, grade);
+            });
+        }
+
+        function downloadResults(correct, incorrect, percentage, time, grade) {
+            let content = "РЕЗУЛЬТАТЫ ТЕСТА ПО ИНФОРМАТИКЕ\n";
+            content += "================================\n\n";
+            content += `Правильно ответено: ${correct}/30\n`;
+            content += `Неправильно ответено: ${incorrect}/30\n`;
+            content += `Процент правильных ответов: ${percentage}%\n`;
+            content += `Затрачено времени: ${time}\n`;
+            content += `Итоговая оценка: ${grade}\n\n`;
+            content += "ДЕТАЛЬНЫЙ АНАЛИЗ ОТВЕТОВ:\n";
+            content += "================================\n\n";
+
+            answers.forEach((answer, index) => {
+                const isCorrect = answer === questions[index].correct;
+                content += `ВОПРОС ${index + 1}\n`;
+                content += `${questions[index].question}\n`;
+                content += `Ваш ответ: ${answer !== null ? questions[index].options[answer] : "Не отвечено"}\n`;
+                content += `Правильный ответ: ${questions[index].options[questions[index].correct]}\n`;
+                content += `Статус: ${isCorrect ? "ВЕРНО" : "НЕВЕРНО"}\n`;
+                content += "---\n\n";
+            });
+
+            const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "rezultaty.txt";
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
