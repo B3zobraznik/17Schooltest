@@ -1,951 +1,1903 @@
 <!DOCTYPE html>
+
 <html lang="ru">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест информатика 11</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+
+    <title>CartoPro Studio Ultra - Полная версия</title>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+
+        :root {
+
+            --bg-main: #0c0c0e;
+
+            --bg-sidebar: #16161a;
+
+            --bg-panel: #1f1f27;
+
+            --accent: #3b82f6;
+
+            --accent-glow: rgba(59, 130, 246, 0.4);
+
+            --text-main: #f8fafc;
+
+            --text-dim: #94a3b8;
+
+            --border: #2e2e38;
+
+            --danger: #ef4444;
+
+            --success: #10b981;
+
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+
+
+        * { 
+
+            box-sizing: border-box; 
+
+            margin: 0; 
+
+            padding: 0; 
+
+            -webkit-user-select: none; 
+
+            -webkit-touch-callout: none; 
+
         }
 
-        .start-screen {
-            text-align: center;
-            z-index: 10;
-            position: relative;
+
+
+        html, body { 
+
+            width: 100%; 
+
+            height: 100%; 
+
+            overflow: hidden; 
+
+            font-family: 'Inter', -apple-system, system-ui, sans-serif; 
+
+            background: var(--bg-main); 
+
+            color: var(--text-main); 
+
         }
 
-        .start-screen.hidden {
-            display: none;
-        }
 
-        .start-content {
-            padding: 80px 60px;
-            max-width: 600px;
-        }
 
-        .start-content h1 {
-            font-size: 54px;
-            margin-bottom: 20px;
-            font-weight: 800;
-            letter-spacing: -0.8px;
-            line-height: 1.2;
-        }
+        body { display: flex; flex-direction: column; }
 
-        .start-content p {
-            font-size: 17px;
-            color: #aaa;
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
 
-        .start-button {
-            margin-top: 55px;
-            padding: 16px 70px;
-            font-size: 15px;
-            font-weight: 700;
-            color: #0a0a0a;
-            background: #fff;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            letter-spacing: 0.3px;
-        }
 
-        .start-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 25px 50px rgba(255, 255, 255, 0.15);
-        }
+        /* HEADER */
 
-        .particle {
-            position: fixed;
-            pointer-events: none;
-            border-radius: 50%;
-        }
+        header {
 
-        @keyframes burst {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--tx), var(--ty)) scale(0);
-            }
-        }
+            background: var(--bg-sidebar); 
 
-        .test-screen {
-            display: none;
-            width: 100%;
-            max-width: 850px;
-            position: relative;
-            z-index: 5;
-            padding: 0 20px;
-        }
+            border-bottom: 1px solid var(--border);
 
-        .test-screen.active {
-            display: block;
-        }
+            display: flex; 
 
-        .test-header {
-            padding: 35px 45px;
-            margin-bottom: 25px;
-            background: #111;
-            border: 1px solid #1a1a1a;
-            border-radius: 10px;
-        }
+            align-items: center; 
 
-        .test-header h2 {
-            font-size: 19px;
-            margin-bottom: 30px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 2px;
-            background: #222;
-            border-radius: 1px;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #fff;
-            transition: width 0.4s ease;
-        }
-
-        .test-info {
-            display: flex;
             justify-content: space-between;
-            font-size: 12px;
-            color: #666;
-            letter-spacing: 0.2px;
+
+            padding: 0 16px;
+
+            height: 60px;
+
+            flex-shrink: 0;
+
+            z-index: 1000;
+
         }
 
-        .test-content {
-            padding: 55px 45px;
+
+
+        .logo-container { display: flex; align-items: center; gap: 8px; }
+
+        .logo-icon { width: 24px; height: 24px; background: var(--accent); border-radius: 6px; }
+
+        .logo-text { font-weight: 800; font-size: 18px; letter-spacing: -0.5px; }
+
+
+
+        .header-controls { display: flex; gap: 8px; }
+
+        .btn-icon {
+
+            width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+
+            background: var(--bg-panel); color: var(--text-main); cursor: pointer;
+
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+
+        }
+
+        .btn-icon:active { transform: scale(0.9); background: var(--border); }
+
+        .btn-save { background: var(--accent); border: none; padding: 0 12px; width: auto; font-weight: 600; font-size: 13px; gap: 6px; }
+
+
+
+        /* CANVAS AREA */
+
+        .viewport {
+
+            flex: 1; position: relative; overflow: hidden;
+
+            display: flex; align-items: center; justify-content: center;
+
             background: #111;
-            border: 1px solid #1a1a1a;
-            border-radius: 10px;
-            margin-bottom: 30px;
+
+            background-image: 
+
+                radial-gradient(circle at 2px 2px, var(--border) 1px, transparent 0);
+
+            background-size: 32px 32px;
+
         }
 
-        .question-block {
-            display: none;
+
+
+        #canvas-container {
+
+            position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+
+            transition: transform 0.1s ease-out; touch-action: none;
+
+            cursor: grab;
+
         }
 
-        .question-block.active {
-            display: block;
-            animation: slideIn 0.35s ease;
+        #canvas-container.dragging { cursor: grabbing; }
+
+
+
+        canvas { display: block; background: #fff; cursor: crosshair; }
+
+
+
+        /* SETTINGS MENU */
+
+        .side-settings {
+
+            position: fixed; top: 70px; right: 10px; bottom: 90px; width: 280px;
+
+            background: var(--bg-sidebar); border: 1px solid var(--border);
+
+            border-radius: 16px; z-index: 900; display: none; flex-direction: column;
+
+            box-shadow: -10px 0 30px rgba(0,0,0,0.3); overflow: hidden;
+
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .side-settings.active { display: flex; }
+
+
+
+        .settings-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+
+        .settings-content { flex: 1; overflow-y: auto; padding: 16px; }
+
+
+
+        /* TOOLS PANEL */
+
+        .bottom-nav {
+
+            height: 80px; background: var(--bg-sidebar); border-top: 1px solid var(--border);
+
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+
+            padding: 0 16px; z-index: 1000;
+
         }
 
-        .question-number {
-            font-size: 11px;
-            color: #555;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
+
+
+        .tool-card {
+
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+
+            color: var(--text-dim); cursor: pointer; transition: 0.2s; min-width: 55px;
+
         }
 
-        .question-text {
-            font-size: 21px;
-            margin-bottom: 35px;
-            font-weight: 600;
-            line-height: 1.6;
-            letter-spacing: -0.3px;
+        .tool-card.active { color: var(--accent); }
+
+        .tool-circle {
+
+            width: 44px; height: 44px; border-radius: 12px;
+
+            display: flex; align-items: center; justify-content: center;
+
+            background: var(--bg-panel); border: 1px solid var(--border);
+
         }
 
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .tool-card.active .tool-circle { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 0 15px var(--accent-glow); }
+
+        .tool-label { font-size: 10px; font-weight: 600; text-transform: uppercase; }
+
+
+
+        /* WIDGETS */
+
+        .control-group { margin-bottom: 20px; }
+
+        .group-label { font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; display: block; }
+
+        
+
+        .size-slider-wrap { display: flex; align-items: center; gap: 10px; }
+
+        input[type="range"] { flex: 1; accent-color: var(--accent); }
+
+
+
+        .color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+
+        .color-dot { aspect-ratio: 1; border-radius: 8px; border: 2px solid transparent; cursor: pointer; }
+
+        .color-dot.active { border-color: white; transform: scale(1.1); }
+
+
+
+        /* SYMBOL GRID */
+
+        .symbol-grid {
+
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+
+            background: var(--bg-panel); padding: 10px; border-radius: 12px;
+
         }
 
-        .option {
-            padding: 16px 18px;
-            border: 1px solid #2a2a2a;
-            border-radius: 6px;
-            cursor: pointer;
-            background: transparent;
-            transition: all 0.2s ease;
-            font-size: 15px;
-            color: #bbb;
-            position: relative;
-            text-align: left;
+        .sym-item {
+
+            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+
+            font-size: 20px; background: var(--bg-main); border-radius: 8px;
+
+            cursor: pointer; border: 1px solid var(--border);
+
         }
 
-        .option:hover {
-            border-color: #444;
-            background: rgba(255, 255, 255, 0.02);
-            color: #ddd;
+        .sym-item:active { background: var(--accent); }
+
+        .sym-item.active { border-color: var(--accent); color: var(--accent); background: rgba(59, 130, 246, 0.1); }
+
+
+
+        /* CHART SECTION ITEM */
+
+        .chart-section-item {
+
+            display: grid; grid-template-columns: 1fr 60px 40px 30px; gap: 6px;
+
+            background: var(--bg-main); padding: 8px; border-radius: 6px; align-items: center;
+
+            border: 1px solid var(--border);
+
         }
 
-        .option.selected {
-            border-color: #fff;
-            background: rgba(255, 255, 255, 0.07);
-            color: #fff;
+        .chart-section-item input {
+
+            background: transparent; border: 1px solid var(--border); 
+
+            color: white; padding: 4px; border-radius: 4px; font-size: 11px;
+
         }
 
-        .test-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
+        .chart-btn-small {
+
+            width: 28px; height: 28px; border-radius: 4px; border: 1px solid var(--border);
+
+            background: transparent; color: var(--text-main); cursor: pointer; font-size: 12px;
+
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+
         }
 
-        .nav-button {
-            padding: 12px 32px;
-            border: 1px solid #333;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            background: transparent;
-            color: #bbb;
-            letter-spacing: 0.2px;
+        .chart-btn-small:active { background: var(--accent); }
+
+        .chart-btn-remove { color: var(--danger); }
+
+
+
+        /* MODALS */
+
+        .modal {
+
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+
+            display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
+
         }
 
-        .nav-button:hover:not(:disabled) {
-            border-color: #666;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
+        .modal.active { display: flex; }
+
+        .modal-body { 
+
+            background: var(--bg-sidebar); width: 100%; max-width: 340px; 
+
+            border-radius: 20px; padding: 24px; border: 1px solid var(--border);
+
         }
 
-        .next-button {
-            border-color: #666;
-            color: #ddd;
+
+
+        .icon-svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        
+
+        .legend-input { 
+
+            background: transparent; border: 1px solid var(--border); 
+
+            color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;
+
         }
 
-        .nav-button:disabled {
-            opacity: 0.25;
-            cursor: not-allowed;
-        }
-
-        .results-screen {
-            display: none;
-            position: relative;
-            z-index: 5;
-        }
-
-        .results-screen.active {
-            display: block;
-        }
-
-        .results-content {
-            padding: 60px 50px;
-            background: #111;
-            border: 1px solid #1a1a1a;
-            border-radius: 10px;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .results-title {
-            font-size: 30px;
-            margin-bottom: 45px;
-            text-align: center;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .percentage {
-            font-size: 72px;
-            text-align: center;
-            margin-bottom: 55px;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 18px 0;
-            border-bottom: 1px solid #1a1a1a;
-            font-size: 15px;
-        }
-
-        .result-item:last-child {
-            border-bottom: none;
-        }
-
-        .result-label {
-            color: #777;
-            font-weight: 500;
-        }
-
-        .result-value {
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .download-button {
-            display: block;
-            margin-top: 45px;
-            padding: 14px 30px;
-            width: 100%;
-            background: #fff;
-            color: #0a0a0a;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 0.3px;
-        }
-
-        .download-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
-        }
-
-        .timer {
-            font-size: 12px;
-            color: #777;
-            font-weight: 600;
-        }
-
-        .social-screen {
-            display: none;
-            text-align: center;
-            z-index: 10;
-            position: relative;
-        }
-
-        .social-screen.active {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .social-screen.hidden {
-            display: none;
-        }
-
-        .social-content {
-            position: relative;
-        }
-
-        .byline {
-            font-size: 48px;
-            font-weight: 800;
-            margin-bottom: 80px;
-            letter-spacing: -0.5px;
-            animation: fadeInScale 0.8s ease;
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .social-buttons {
-            position: relative;
-            height: 200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
-        }
-
-        .social-btn {
-            padding: 14px 50px;
-            border: 1px solid #444;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            background: transparent;
-            color: #ddd;
-            letter-spacing: 0.3px;
-            position: absolute;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .social-btn:hover {
-            border-color: #666;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-        }
-
-        .tiktok-btn {
-            top: 0;
-        }
-
-        .telegram-btn {
-            bottom: 0;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            10% { transform: translate(-3px, -3px) rotate(-1deg); }
-            20% { transform: translate(3px, 3px) rotate(1deg); }
-            30% { transform: translate(-3px, 3px) rotate(-1deg); }
-            40% { transform: translate(3px, -3px) rotate(1deg); }
-            50% { transform: translate(-4px, -4px) rotate(-1.5deg); }
-            60% { transform: translate(4px, 4px) rotate(1.5deg); }
-            70% { transform: translate(-4px, 4px) rotate(-1.5deg); }
-            80% { transform: translate(4px, -4px) rotate(1.5deg); }
-            90% { transform: translate(-5px, -5px) rotate(-2deg); }
-        }
-
-        .social-btn.shaking {
-            animation: shake 0.4s infinite;
-        }
-
-        .social-particle {
-            position: fixed;
-            pointer-events: none;
-            border-radius: 50%;
-        }
-
-        @keyframes socialBurst {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--tx), var(--ty)) scale(0);
-            }
-        }
-
-        .social-btn.bursting {
-            animation: socialBurst 0.7s ease-out forwards;
-        }
     </style>
+
 </head>
+
 <body>
-    <div class="start-screen" id="startScreen">
-        <div class="start-content">
-            <h1>ИНФОРМАТИКА 11</h1>
-            <p>Итоговый тест</p>
-            <p>30 вопросов / 60 минут</p>
-            <button class="start-button" id="startButton">НАЧАТЬ ТЕСТ</button>
-        </div>
+
+
+
+<header>
+
+    <div class="logo-container">
+
+        <div class="logo-icon"></div>
+
+        <div class="logo-text">CARTOPRO <span style="color:var(--text-dim); font-weight:400">ULTRA</span></div>
+
     </div>
 
-    <div class="social-screen" id="socialScreen">
-        <div class="social-content">
-            <div class="byline">BY codergiase</div>
-            <div class="social-buttons">
-                <a href="https://www.tiktok.com/@codergiase" target="_blank" class="social-btn tiktok-btn" id="tiktokBtn">TIKTOK</a>
-                <a href="https://t.me/codergiase" target="_blank" class="social-btn telegram-btn" id="telegramBtn">TELEGRAM</a>
-            </div>
-        </div>
+    <div class="header-controls">
+
+        <button class="btn-icon" onclick="undo()" title="Назад">↺</button>
+
+        <button class="btn-icon" onclick="redo()" title="Вперед">↻</button>
+
+        <button class="btn-icon btn-save" onclick="exportCanvas()">
+
+            <span>СОХРАНИТЬ</span>
+
+        </button>
+
     </div>
 
-    <div class="test-screen" id="testScreen">
-        <div class="test-header">
-            <h2>ИНФОРМАТИКА 11</h2>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="test-info">
-                <span>Вопрос <span id="currentQuestion">1</span>/30</span>
-                <span class="timer">Время: <span id="timer">00:00</span></span>
-            </div>
-        </div>
+</header>
 
-        <div class="test-content">
-            <div id="questionsContainer"></div>
-        </div>
 
-        <div class="test-footer">
-            <button class="nav-button" id="prevButton" disabled>НАЗАД</button>
-            <button class="nav-button next-button" id="nextButton">ДАЛЬШЕ</button>
-        </div>
+
+<div class="viewport">
+
+    <div id="canvas-container">
+
+        <canvas id="mainCanvas"></canvas>
+
     </div>
 
-    <div class="results-screen" id="resultsScreen">
-        <div class="results-content">
-            <h1 class="results-title">РЕЗУЛЬТАТЫ</h1>
-            <div class="percentage" id="percentage">0%</div>
-            <div class="result-item">
-                <span class="result-label">Правильно</span>
-                <span class="result-value"><span id="correctCount">0</span>/30</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Неправильно</span>
-                <span class="result-value"><span id="wrongCount">0</span>/30</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Затрачено времени</span>
-                <span class="result-value" id="totalTime">00:00</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Оценка</span>
-                <span class="result-value" id="grade">-</span>
-            </div>
-            <button class="download-button" id="downloadButton">СКАЧАТЬ РЕЗУЛЬТАТЫ</button>
-        </div>
+</div>
+
+
+
+<div class="side-settings" id="sidePanel">
+
+    <div class="settings-header">
+
+        <span id="panelTitle" style="font-weight:700">Инструменты</span>
+
+        <button class="btn-icon" onclick="togglePanel()" style="border:none; background:transparent">✕</button>
+
     </div>
 
-    <script>
-        const questions = [
-            {
-                question: "Что такое алгоритм?",
-                options: ["Последовательность команд для решения задачи", "Программа на языке C++", "Система нумерации", "Базовый тип данных"],
-                correct: 0
-            },
-            {
-                question: "Какой язык программирования является объектно-ориентированным?",
-                options: ["Pascal", "С", "Java", "BASIC"],
-                correct: 2
-            },
-            {
-                question: "Что означает HTML?",
-                options: ["High Tech Markup Language", "HyperText Markup Language", "Home Tool Markup Language", "Hierarchical Text Markup Language"],
-                correct: 1
-            },
-            {
-                question: "Какая база данных использует структуру таблиц?",
-                options: ["Иерархическая БД", "Реляционная БД", "Объектная БД", "Сетевая БД"],
-                correct: 1
-            },
-            {
-                question: "Что такое переменная в программировании?",
-                options: ["Именованное значение, которое изменяется", "Функция программы", "Параметр компилятора", "Тип файла"],
-                correct: 0
-            },
-            {
-                question: "Какой оператор используется для циклов в большинстве языков?",
-                options: ["if", "while", "return", "class"],
-                correct: 1
-            },
-            {
-                question: "Что означает CPU?",
-                options: ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Control Processing Unit"],
-                correct: 0
-            },
-            {
-                question: "Какой протокол используется для отправки электронной почты?",
-                options: ["HTTP", "SMTP", "FTP", "DNS"],
-                correct: 1
-            },
-            {
-                question: "Какая операция выполняет XOR в логике?",
-                options: ["Логическое И", "Логическое ИЛИ", "Исключающее ИЛИ", "Логическое НЕ"],
-                correct: 2
-            },
-            {
-                question: "Сколько бит в одном байте?",
-                options: ["4", "8", "16", "32"],
-                correct: 1
-            },
-            {
-                question: "Что такое рекурсия?",
-                options: ["Циклический процесс", "Функция, вызывающая саму себя", "Массив элементов", "Тип переменной"],
-                correct: 1
-            },
-            {
-                question: "Какой порядок символов в кодировке Unicode?",
-                options: ["ASCII", "UTF-8", "Оба варианта верны", "Ни один из них"],
-                correct: 2
-            },
-            {
-                question: "Что означает API?",
-                options: ["Application Program Interface", "Advanced Programming Integration", "Automated Process Instruction", "Application Process Integration"],
-                correct: 0
-            },
-            {
-                question: "Какая структура данных работает по принципу FIFO?",
-                options: ["Стек", "Очередь", "Дерево", "График"],
-                correct: 1
-            },
-            {
-                question: "Что такое компиляция?",
-                options: ["Исполнение программы", "Преобразование исходного кода в машинный код", "Редактирование текста", "Проверка грамматики"],
-                correct: 1
-            },
-            {
-                question: "Какой метод сортировки имеет сложность O(n log n) в лучшем случае?",
-                options: ["Пузырьковая сортировка", "Сортировка слиянием", "Сортировка выбором", "Сортировка вставками"],
-                correct: 1
-            },
-            {
-                question: "Что означает SQL?",
-                options: ["Simple Query Language", "Structured Query Language", "Standard Query Language", "System Query Language"],
-                correct: 1
-            },
-            {
-                question: "Какой оператор используется для условного ветвления?",
-                options: ["while", "for", "if", "switch"],
-                correct: 2
-            },
-            {
-                question: "Что такое ROM в компьютере?",
-                options: ["Random Access Memory", "Read Only Memory", "Removable Optical Media", "Rapid Output Memory"],
-                correct: 1
-            },
-            {
-                question: "Какой формат файла используется для векторной графики?",
-                options: ["JPEG", "PNG", "SVG", "GIF"],
-                correct: 2
-            },
-            {
-                question: "Что означает IP в IP адресе?",
-                options: ["Information Protocol", "Internet Protocol", "Internal Processing", "Integrated Platform"],
-                correct: 1
-            },
-            {
-                question: "Какая операция имеет наибольший приоритет в выражениях?",
-                options: ["Сложение", "Умножение", "Скобки", "Вычитание"],
-                correct: 2
-            },
-            {
-                question: "Что такое класс в ООП?",
-                options: ["Переменная программы", "Тип данных", "Функция программы", "Шаблон для создания объектов"],
-                correct: 3
-            },
-            {
-                question: "Какой протокол используется для безопасного веб-соединения?",
-                options: ["HTTP", "HTTPS", "FTP", "SMTP"],
-                correct: 1
-            },
-            {
-                question: "Что означает RAM?",
-                options: ["Removable Access Memory", "Random Access Memory", "Read All Memory", "Rapid Access Module"],
-                correct: 1
-            },
-            {
-                question: "Какая структура используется для поиска элемента по ключу?",
-                options: ["Массив", "Список", "Хэш-таблица", "Граф"],
-                correct: 2
-            },
-            {
-                question: "Что такое кэш процессора?",
-                options: ["Быстрая память близкая к процессору", "Виртуальная память", "Буфер клавиатуры", "Система охлаждения"],
-                correct: 0
-            },
-            {
-                question: "Какой язык используется для стилизации веб-страниц?",
-                options: ["HTML", "JavaScript", "CSS", "SQL"],
-                correct: 2
-            },
-            {
-                question: "Что означает параметр в функции?",
-                options: ["Возвращаемое значение", "Входные данные функции", "Тип переменной", "Имя программы"],
-                correct: 1
-            },
-            {
-                question: "Какой алгоритм поиска самый быстрый для отсортированного массива?",
-                options: ["Линейный поиск", "Бинарный поиск", "Поиск в глубину", "Поиск в ширину"],
-                correct: 1
-            }
-        ];
+    <div class="settings-content">
 
-        let currentQuestion = 0;
-        let answers = new Array(30).fill(null);
-        let startTime = null;
-        let timerInterval = null;
+        
 
-        const startButton = document.getElementById("startButton");
-        const startScreen = document.getElementById("startScreen");
-        const testScreen = document.getElementById("testScreen");
-        const resultsScreen = document.getElementById("resultsScreen");
-        const socialScreen = document.getElementById("socialScreen");
-        const nextButton = document.getElementById("nextButton");
-        const prevButton = document.getElementById("prevButton");
-        const questionsContainer = document.getElementById("questionsContainer");
-        const tiktokBtn = document.getElementById("tiktokBtn");
-        const telegramBtn = document.getElementById("telegramBtn");
+        <div class="control-group">
 
-        startButton.addEventListener("click", startTest);
-        nextButton.addEventListener("click", nextQuestion);
-        prevButton.addEventListener("click", prevQuestion);
+            <label class="group-label">Размер / Толщина: <span id="sizeVal">24</span>px</label>
 
-        function startTest() {
-            createParticles();
-            startButton.style.pointerEvents = "none";
+            <div class="size-slider-wrap">
 
-            setTimeout(() => {
-                startScreen.classList.add("hidden");
-                socialScreen.classList.add("active");
-                setTimeout(startSocialSequence, 100);
-            }, 600);
+                <input type="range" id="sizeRange" min="4" max="120" value="24">
+
+            </div>
+
+        </div>
+
+
+
+        <div class="control-group">
+
+            <label class="group-label">Палитра</label>
+
+            <div class="color-grid" id="colorPalette">
+
+                </div>
+
+        </div>
+
+
+
+        <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;">
+
+
+
+        <div id="poiSettings" style="display:none">
+
+            <label class="group-label">Значки ресурсов (из атласа)</label>
+
+            <div class="symbol-grid" id="symbolGrid">
+
+                </div>
+
+        </div>
+
+
+
+        <div id="markerSettings" style="display:none">
+
+            <label class="group-label">Цвет маркера</label>
+
+            <div class="color-grid" id="markerColorPalette">
+
+                </div>
+
+        </div>
+
+
+
+        <div id="chartSettings" style="display:none">
+
+            <label class="group-label">Параметры графика</label>
+
+            <div class="control-group">
+
+                <label class="group-label">Тип графика</label>
+
+                <select id="chartType" style="width:100%; padding:8px; background:var(--bg-panel); color:var(--text-main); border:1px solid var(--border); border-radius:6px;">
+
+                    <option value="line">Линейный</option>
+
+                    <option value="bar">Столбцы</option>
+
+                    <option value="pie">Круговая</option>
+
+                </select>
+
+            </div>
+
+            <label class="group-label" style="margin-top:15px;">Разделы графика</label>
+
+            <div id="chartSections" style="display:flex; flex-direction:column; gap:8px; max-height:180px; overflow-y:auto; background:var(--bg-panel); padding:8px; border-radius:8px; border: 1px solid var(--border);"></div>
+
+            <button onclick="addChartSection()" class="btn-save" style="width:100%; margin-top:10px; height:35px; background:var(--bg-panel); border:1px solid var(--border); color: var(--text-main);">+ Добавить раздел</button>
+
+            <button onclick="drawChartToCanvas()" class="btn-save" style="width:100%; margin-top:8px; height:40px;">Нарисовать график</button>
+
+            <p style="font-size:11px; color:var(--text-dim); margin-top:10px;">💡 График можно перетаскивать мышкой</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<nav class="bottom-nav">
+
+    <div class="tool-card active" onclick="setTool('brush', this)">
+
+        <div class="tool-circle"><svg class="icon-svg"><path d="M12 19l7-7 3 3-7 7-3-3zM18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg></div>
+
+        <div class="tool-label">Кисть</div>
+
+    </div>
+
+    <div class="tool-card" onclick="setTool('poi', this)">
+
+        <div class="tool-circle"><svg class="icon-svg"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+
+        <div class="tool-label">Символ</div>
+
+    </div>
+
+    <div class="tool-card" onclick="setTool('text', this)">
+
+        <div class="tool-circle"><svg class="icon-svg"><path d="M4 7V4h16v3M12 4v16"/></svg></div>
+
+        <div class="tool-label">Текст</div>
+
+    </div>
+
+    <div class="tool-card" onclick="setTool('marker', this)">
+
+        <div class="tool-circle"><svg class="icon-svg"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/><circle cx="12" cy="11" r="2" fill="white"/></svg></div>
+
+        <div class="tool-label">Маркер</div>
+
+    </div>
+
+    <div class="tool-card" onclick="setTool('chart', this)">
+
+        <div class="tool-circle"><svg class="icon-svg"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/></svg></div>
+
+        <div class="tool-label">График</div>
+
+    </div>
+
+    <div class="tool-card" onclick="setTool('eraser', this)">
+
+        <div class="tool-circle"><svg class="icon-svg"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21H7z"/></svg></div>
+
+        <div class="tool-label">Ластик</div>
+
+    </div>
+
+    <div class="tool-card" onclick="setTool('image', this)">
+
+        <div class="tool-circle"><svg class="icon-svg"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+
+        <div class="tool-label">Картина</div>
+
+    </div>
+
+    <div class="tool-card" onclick="togglePanel()">
+
+        <div class="tool-circle" style="background:var(--border)">⚙</div>
+
+        <div class="tool-label">Опции</div>
+
+    </div>
+
+</nav>
+
+
+
+<div class="modal" id="textModal">
+
+    <div class="modal-body">
+
+        <h3 style="margin-bottom:15px">Введите текст</h3>
+
+        <input type="text" id="mapTextInput" class="legend-input" style="width:100%; height:45px; font-size:16px;" placeholder="Название объекта...">
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:20px;">
+
+            <button class="btn-save" style="background:var(--border)" onclick="closeModal()">Отмена</button>
+
+            <button class="btn-save" onclick="confirmText()">Добавить</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="modal" id="markerModal">
+
+    <div class="modal-body">
+
+        <h3 style="margin-bottom:15px">Название маркера</h3>
+
+        <input type="text" id="markerInput" class="legend-input" style="width:100%; height:45px; font-size:16px;" placeholder="Например: Москва...">
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:20px;">
+
+            <button class="btn-save" style="background:var(--border)" onclick="closeMarkerModal()">Отмена</button>
+
+            <button class="btn-save" onclick="confirmMarker()">Добавить</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<input type="file" id="imageInput" accept="image/*" style="display:none;">
+
+
+
+<script>
+
+    /**
+
+     * CARTOPRO ULTRA ENGINE
+
+     * Исправленный график + маркеры с цветом
+
+     */
+
+
+
+    const canvas = document.getElementById('mainCanvas');
+
+    const ctx = canvas.getContext('2d', { alpha: false });
+
+    const container = document.getElementById('canvas-container');
+
+    const imageInput = document.getElementById('imageInput');
+
+
+
+    // Настройки состояния
+
+    const state = {
+
+        tool: 'brush',
+
+        color: '#000000',
+
+        size: 24,
+
+        isDrawing: false,
+
+        lastX: 0,
+
+        lastY: 0,
+
+        history: [],
+
+        redoStack: [],
+
+        currentSymbol: '▲',
+
+        chartType: 'line',
+
+        textPos: null,
+
+        markerPos: null,
+
+        markerColor: '#3b82f6',
+
+        chartData: [
+
+            { label: 'Раздел 1', value: 30, color: '#3b82f6' },
+
+            { label: 'Раздел 2', value: 60, color: '#ef4444' },
+
+            { label: 'Раздел 3', value: 45, color: '#10b981' },
+
+            { label: 'Раздел 4', value: 75, color: '#f59e0b' }
+
+        ],
+
+        markers: [],
+
+        chartPos: { x: 80, y: 120 },
+
+        chartDragging: false,
+
+        chartDragStart: { x: 0, y: 0 },
+
+        chartExists: false,
+
+        canvasBeforeChart: null
+
+    };
+
+
+
+    // Все символы
+
+    const SYMBOL_LIBRARY = [
+
+        '▲', '△', '■', '▨', '▰', '◉', 
+
+        '▴', '▾', '⧓', '◆', '▬', '▽', '▿', '▼', '☢', '□', '⬭', '◇', '⬫', '⬔',
+
+        '○', '◑', '◒', '✪', '✷', '✚', '▮', '▧', '⬒', '◍', '▵', '▭', '▱', '◊'
+
+    ];
+
+
+
+    const COLORS = [
+
+        '#000000', '#ffffff', '#ef4444', '#f59e0b', '#10b981', 
+
+        '#3b82f6', '#8b5cf6', '#ec4899', '#71717a', '#452c1e'
+
+    ];
+
+
+
+    const CHART_COLORS = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#71717a', '#06b6d4'];
+
+
+
+    function init() {
+
+        canvas.width = 1400;
+
+        canvas.height = 1000;
+
+        
+
+        ctx.fillStyle = '#ffffff';
+
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+
+
+        setupUI();
+
+        saveState();
+
+        
+
+        fitCanvas();
+
+        window.addEventListener('resize', fitCanvas);
+
+    }
+
+
+
+    function setupUI() {
+
+        const palette = document.getElementById('colorPalette');
+
+        COLORS.forEach(c => {
+
+            const dot = document.createElement('div');
+
+            dot.className = 'color-dot' + (c === state.color ? ' active' : '');
+
+            dot.style.background = c;
+
+            dot.onclick = () => {
+
+                state.color = c;
+
+                document.querySelectorAll('#colorPalette .color-dot').forEach(d => d.classList.remove('active'));
+
+                dot.classList.add('active');
+
+            };
+
+            palette.appendChild(dot);
+
+        });
+
+
+
+        // Палитра маркеров
+
+        const markerPalette = document.getElementById('markerColorPalette');
+
+        COLORS.forEach(c => {
+
+            const dot = document.createElement('div');
+
+            dot.className = 'color-dot' + (c === state.markerColor ? ' active' : '');
+
+            dot.style.background = c;
+
+            dot.onclick = () => {
+
+                state.markerColor = c;
+
+                document.querySelectorAll('#markerColorPalette .color-dot').forEach(d => d.classList.remove('active'));
+
+                dot.classList.add('active');
+
+            };
+
+            markerPalette.appendChild(dot);
+
+        });
+
+
+
+        const grid = document.getElementById('symbolGrid');
+
+        SYMBOL_LIBRARY.forEach(s => {
+
+            const item = document.createElement('div');
+
+            item.className = 'sym-item' + (s === state.currentSymbol ? ' active' : '');
+
+            item.innerText = s;
+
+            item.onclick = () => {
+
+                state.currentSymbol = s;
+
+                document.querySelectorAll('.sym-item').forEach(i => i.classList.remove('active'));
+
+                item.classList.add('active');
+
+            };
+
+            grid.appendChild(item);
+
+        });
+
+
+
+        const slider = document.getElementById('sizeRange');
+
+        slider.oninput = (e) => {
+
+            state.size = parseInt(e.target.value);
+
+            document.getElementById('sizeVal').innerText = state.size;
+
+        };
+
+
+
+        const chartSelect = document.getElementById('chartType');
+
+        chartSelect.onchange = (e) => {
+
+            state.chartType = e.target.value;
+
+        };
+
+
+
+        refreshChartUI();
+
+    }
+
+
+
+    function setTool(toolName, el) {
+
+        state.tool = toolName;
+
+        document.querySelectorAll('.tool-card').forEach(c => c.classList.remove('active'));
+
+        el.classList.add('active');
+
+
+
+        document.getElementById('poiSettings').style.display = (toolName === 'poi') ? 'block' : 'none';
+
+        document.getElementById('markerSettings').style.display = (toolName === 'marker') ? 'block' : 'none';
+
+        document.getElementById('chartSettings').style.display = (toolName === 'chart') ? 'block' : 'none';
+
+        
+
+        if(toolName === 'poi' || toolName === 'chart' || toolName === 'marker') togglePanel(true);
+
+        
+
+        if(toolName === 'image') {
+
+            imageInput.click();
+
         }
 
-        function startSocialSequence() {
-            setTimeout(() => {
-                tiktokBtn.classList.add("shaking");
-                telegramBtn.classList.add("shaking");
+    }
 
-                setTimeout(() => {
-                    tiktokBtn.classList.remove("shaking");
-                    telegramBtn.classList.remove("shaking");
-                    burstSocialButtons();
-                }, 2500);
-            }, 500);
+
+
+    function getMousePos(e) {
+
+        const rect = canvas.getBoundingClientRect();
+
+        const scaleX = canvas.width / rect.width;
+
+        const scaleY = canvas.height / rect.height;
+
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        return {
+
+            x: (clientX - rect.left) * scaleX,
+
+            y: (clientY - rect.top) * scaleY
+
+        };
+
+    }
+
+
+
+    canvas.addEventListener('mousedown', startAction);
+
+    canvas.addEventListener('mousemove', moveAction);
+
+    canvas.addEventListener('mouseup', endAction);
+
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startAction(e); });
+
+    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); moveAction(e); });
+
+    canvas.addEventListener('touchend', endAction);
+
+
+
+    function startAction(e) {
+
+        const pos = getMousePos(e);
+
+        
+
+        // Проверка на кликание по графику для его перемещения
+
+        if(state.chartExists && isMouseOverChart(pos)) {
+
+            state.chartDragging = true;
+
+            state.chartDragStart = { x: pos.x - state.chartPos.x, y: pos.y - state.chartPos.y };
+
+            container.classList.add('dragging');
+
+            return;
+
         }
 
-        function burstSocialButtons() {
-            [tiktokBtn, telegramBtn].forEach((btn) => {
-                const rect = btn.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
 
-                for (let i = 0; i < 15; i++) {
-                    const particle = document.createElement("div");
-                    particle.className = "social-particle";
 
-                    const size = Math.random() * 16 + 6;
-                    particle.style.width = size + "px";
-                    particle.style.height = size + "px";
-                    particle.style.left = centerX + "px";
-                    particle.style.top = centerY + "px";
+        state.isDrawing = true;
 
-                    particle.style.backgroundColor = "#fff";
-                    particle.style.opacity = "0.6";
+        state.lastX = pos.x;
 
-                    const angle = (Math.PI * 2 * i) / 15;
-                    const velocity = Math.random() * 300 + 200;
-                    const tx = Math.cos(angle) * velocity;
-                    const ty = Math.sin(angle) * velocity;
+        state.lastY = pos.y;
 
-                    particle.style.setProperty("--tx", tx + "px");
-                    particle.style.setProperty("--ty", ty + "px");
-                    particle.style.animation = `socialBurst 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
 
-                    document.body.appendChild(particle);
 
-                    setTimeout(() => particle.remove(), 700);
-                }
+        if (state.tool === 'poi') {
 
-                btn.classList.add("bursting");
+            drawPOI(pos.x, pos.y);
+
+            saveState();
+
+        } else if (state.tool === 'text') {
+
+            state.textPos = pos;
+
+            openModal();
+
+        } else if (state.tool === 'marker') {
+
+            state.markerPos = pos;
+
+            openMarkerModal();
+
+        }
+
+    }
+
+
+
+    function moveAction(e) {
+
+        if (state.chartDragging) {
+
+            const pos = getMousePos(e);
+
+            state.chartPos.x = pos.x - state.chartDragStart.x;
+
+            state.chartPos.y = pos.y - state.chartDragStart.y;
+
+            
+
+            // Восстанавливаем холст и перерисовываем график
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.putImageData(state.canvasBeforeChart, 0, 0);
+
+            drawChartOnly();
+
+            redrawMarkers();
+
+            return;
+
+        }
+
+
+
+        if (!state.isDrawing) return;
+
+        const pos = getMousePos(e);
+
+
+
+        if (state.tool === 'brush' || state.tool === 'eraser') {
+
+            ctx.beginPath();
+
+            ctx.moveTo(state.lastX, state.lastY);
+
+            ctx.lineTo(pos.x, pos.y);
+
+            ctx.strokeStyle = (state.tool === 'eraser') ? '#ffffff' : state.color;
+
+            ctx.lineWidth = state.size;
+
+            ctx.lineCap = 'round';
+
+            ctx.lineJoin = 'round';
+
+            ctx.stroke();
+
+        }
+
+
+
+        state.lastX = pos.x;
+
+        state.lastY = pos.y;
+
+    }
+
+
+
+    function endAction() {
+
+        if (state.chartDragging) {
+
+            container.classList.remove('dragging');
+
+            state.chartDragging = false;
+
+            saveState();
+
+            return;
+
+        }
+
+
+
+        if (state.isDrawing) saveState();
+
+        state.isDrawing = false;
+
+    }
+
+
+
+    function isMouseOverChart(pos) {
+
+        const chartWidth = 700;
+
+        const chartHeight = 500;
+
+        return pos.x >= state.chartPos.x && 
+
+               pos.x <= state.chartPos.x + chartWidth &&
+
+               pos.y >= state.chartPos.y && 
+
+               pos.y <= state.chartPos.y + chartHeight;
+
+    }
+
+
+
+    function drawPOI(x, y) {
+
+        ctx.fillStyle = state.color;
+
+        ctx.font = `${state.size * 1.5}px "Inter", sans-serif`;
+
+        ctx.textAlign = 'center';
+
+        ctx.textBaseline = 'middle';
+
+        ctx.fillText(state.currentSymbol, x, y);
+
+    }
+
+
+
+    // ФУНКЦИИ ГРАФИКА
+
+    function refreshChartUI() {
+
+        const container = document.getElementById('chartSections');
+
+        container.innerHTML = '';
+
+
+
+        state.chartData.forEach((item, index) => {
+
+            const div = document.createElement('div');
+
+            div.className = 'chart-section-item';
+
+            div.innerHTML = `
+
+                <input type="text" value="${item.label}" placeholder="Название" 
+
+                    onchange="state.chartData[${index}].label=this.value" style="font-weight:600;">
+
+                <input type="number" value="${item.value}" min="1" max="500" 
+
+                    onchange="state.chartData[${index}].value=parseInt(this.value)">
+
+                <button class="chart-btn-small" onclick="changeValue(${index}, 5)">+5</button>
+
+                <button class="chart-btn-small chart-btn-remove" onclick="removeChartSection(${index})">✕</button>
+
+            `;
+
+            container.appendChild(div);
+
+        });
+
+    }
+
+
+
+    function addChartSection() {
+
+        const newColor = CHART_COLORS[state.chartData.length % CHART_COLORS.length];
+
+        state.chartData.push({ 
+
+            label: `Раздел ${state.chartData.length + 1}`, 
+
+            value: 50,
+
+            color: newColor
+
+        });
+
+        refreshChartUI();
+
+    }
+
+
+
+    function removeChartSection(index) {
+
+        state.chartData.splice(index, 1);
+
+        refreshChartUI();
+
+    }
+
+
+
+    function changeValue(index, amount) {
+
+        state.chartData[index].value = Math.max(1, state.chartData[index].value + amount);
+
+        refreshChartUI();
+
+    }
+
+
+
+    function drawChartToCanvas() {
+
+        if (!state.chartExists) {
+
+            // Сохраняем холст ДО графика
+
+            state.canvasBeforeChart = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        }
+
+        
+
+        state.chartExists = true;
+
+        drawChartOnly();
+
+        saveState();
+
+        togglePanel(false);
+
+    }
+
+
+
+    function drawChartOnly() {
+
+        const chartType = state.chartType;
+
+        const startX = state.chartPos.x;
+
+        const startY = state.chartPos.y;
+
+        const width = 700;
+
+        const height = 500;
+
+
+
+        // Фон графика
+
+        ctx.fillStyle = 'rgba(255,255,255,0.98)';
+
+        ctx.strokeStyle = '#333';
+
+        ctx.lineWidth = 2;
+
+        ctx.fillRect(startX, startY, width, height);
+
+        ctx.strokeRect(startX, startY, width, height);
+
+
+
+        // Заголовок
+
+        ctx.fillStyle = '#000';
+
+        ctx.font = 'bold 28px sans-serif';
+
+        ctx.textAlign = 'left';
+
+        ctx.fillText('ГРАФИК', startX + 20, startY + 40);
+
+
+
+        if(chartType === 'line') {
+
+            drawLineChart(startX, startY, width, height);
+
+        } else if(chartType === 'bar') {
+
+            drawBarChart(startX, startY, width, height);
+
+        } else if(chartType === 'pie') {
+
+            drawPieChart(startX, startY, width, height);
+
+        }
+
+
+
+        // Легенда
+
+        drawChartLegend(startX + width + 20, startY);
+
+    }
+
+
+
+    function drawLineChart(startX, startY, width, height) {
+
+        const data = state.chartData;
+
+        const maxValue = Math.max(...data.map(d => d.value));
+
+        const graphWidth = width - 120;
+
+        const graphHeight = height - 120;
+
+        const pointSpacing = graphWidth / (data.length - 1 || 1);
+
+        const graphLeft = startX + 60;
+
+        const graphTop = startY + 70;
+
+        const graphBottom = graphTop + graphHeight;
+
+
+
+        // Оси
+
+        ctx.strokeStyle = '#333';
+
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+
+        ctx.moveTo(graphLeft, graphBottom);
+
+        ctx.lineTo(graphLeft + graphWidth, graphBottom);
+
+        ctx.moveTo(graphLeft, graphTop);
+
+        ctx.lineTo(graphLeft, graphBottom);
+
+        ctx.stroke();
+
+
+
+        drawArrow(ctx, graphLeft + graphWidth, graphBottom, graphLeft + graphWidth + 15, graphBottom);
+
+        drawArrow(ctx, graphLeft, graphTop, graphLeft, graphTop - 15);
+
+
+
+        ctx.strokeStyle = '#3b82f6';
+
+        ctx.lineWidth = 3;
+
+        ctx.beginPath();
+
+
+
+        data.forEach((item, i) => {
+
+            const x = graphLeft + i * pointSpacing;
+
+            const y = graphBottom - (item.value / maxValue) * graphHeight;
+
+
+
+            if(i === 0) ctx.moveTo(x, y);
+
+            else ctx.lineTo(x, y);
+
+
+
+            ctx.fillStyle = item.color;
+
+            ctx.fillRect(x - 5, y - 5, 10, 10);
+
+
+
+            ctx.fillStyle = '#000';
+
+            ctx.font = 'bold 14px sans-serif';
+
+            ctx.textAlign = 'center';
+
+            ctx.fillText(item.value, x, y - 20);
+
+
+
+            ctx.font = '12px sans-serif';
+
+            ctx.fillText(item.label, x, graphBottom + 25);
+
+        });
+
+
+
+        ctx.stroke();
+
+    }
+
+
+
+    function drawBarChart(startX, startY, width, height) {
+
+        const data = state.chartData;
+
+        const maxValue = Math.max(...data.map(d => d.value));
+
+        const graphWidth = width - 120;
+
+        const graphHeight = height - 120;
+
+        const barWidth = graphWidth / (data.length * 1.5);
+
+        const graphLeft = startX + 60;
+
+        const graphTop = startY + 70;
+
+        const graphBottom = graphTop + graphHeight;
+
+
+
+        ctx.strokeStyle = '#333';
+
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+
+        ctx.moveTo(graphLeft, graphBottom);
+
+        ctx.lineTo(graphLeft + graphWidth, graphBottom);
+
+        ctx.moveTo(graphLeft, graphTop);
+
+        ctx.lineTo(graphLeft, graphBottom);
+
+        ctx.stroke();
+
+
+
+        drawArrow(ctx, graphLeft + graphWidth, graphBottom, graphLeft + graphWidth + 15, graphBottom);
+
+        drawArrow(ctx, graphLeft, graphTop, graphLeft, graphTop - 15);
+
+
+
+        data.forEach((item, i) => {
+
+            const x = graphLeft + (i + 0.5) * (graphWidth / data.length);
+
+            const barHeight = (item.value / maxValue) * graphHeight;
+
+            const y = graphBottom - barHeight;
+
+
+
+            ctx.fillStyle = item.color;
+
+            ctx.fillRect(x - barWidth/2, y, barWidth, barHeight);
+
+            ctx.strokeStyle = '#333';
+
+            ctx.lineWidth = 1;
+
+            ctx.strokeRect(x - barWidth/2, y, barWidth, barHeight);
+
+
+
+            ctx.fillStyle = '#000';
+
+            ctx.font = 'bold 14px sans-serif';
+
+            ctx.textAlign = 'center';
+
+            ctx.fillText(item.value, x, y - 10);
+
+
+
+            ctx.font = '12px sans-serif';
+
+            ctx.fillText(item.label, x, graphBottom + 25);
+
+        });
+
+    }
+
+
+
+    function drawPieChart(startX, startY, width, height) {
+
+        const data = state.chartData;
+
+        const total = data.reduce((a, b) => a + b.value, 0);
+
+        const centerX = startX + width / 2 + 60;
+
+        const centerY = startY + height / 2 + 40;
+
+        const radius = Math.min(width, height) / 3 - 40;
+
+
+
+        let startAngle = -Math.PI / 2;
+
+
+
+        data.forEach((item, i) => {
+
+            const sliceAngle = (item.value / total) * 2 * Math.PI;
+
+            const endAngle = startAngle + sliceAngle;
+
+            const midAngle = startAngle + sliceAngle / 2;
+
+
+
+            ctx.fillStyle = item.color;
+
+            ctx.beginPath();
+
+            ctx.moveTo(centerX, centerY);
+
+            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+
+            ctx.closePath();
+
+            ctx.fill();
+
+
+
+            ctx.strokeStyle = '#fff';
+
+            ctx.lineWidth = 2;
+
+            ctx.stroke();
+
+
+
+            const textRadius = radius * 0.65;
+
+            const textX = centerX + Math.cos(midAngle) * textRadius;
+
+            const textY = centerY + Math.sin(midAngle) * textRadius;
+
+
+
+            ctx.fillStyle = '#fff';
+
+            ctx.font = 'bold 14px sans-serif';
+
+            ctx.textAlign = 'center';
+
+            ctx.textBaseline = 'middle';
+
+            const percent = ((item.value / total) * 100).toFixed(0);
+
+            ctx.fillText(percent + '%', textX, textY);
+
+
+
+            startAngle = endAngle;
+
+        });
+
+    }
+
+
+
+    function drawChartLegend(x, y) {
+
+        ctx.fillStyle = 'rgba(0,0,0,0.05)';
+
+        ctx.fillRect(x - 10, y, 150, state.chartData.length * 30 + 20);
+
+
+
+        ctx.fillStyle = '#000';
+
+        ctx.font = 'bold 14px sans-serif';
+
+        ctx.textAlign = 'left';
+
+        ctx.fillText('ЛЕГЕНДА:', x, y + 25);
+
+
+
+        state.chartData.forEach((item, i) => {
+
+            const itemY = y + 50 + i * 30;
+
+
+
+            ctx.fillStyle = item.color;
+
+            ctx.fillRect(x, itemY - 12, 16, 16);
+
+
+
+            ctx.fillStyle = '#000';
+
+            ctx.font = '12px sans-serif';
+
+            ctx.fillText(item.label + ' (' + item.value + ')', x + 25, itemY);
+
+        });
+
+    }
+
+
+
+    function drawArrow(ctx, fromx, fromy, tox, toy) {
+
+        const headlen = 12;
+
+        const angle = Math.atan2(toy - fromy, tox - fromx);
+
+        ctx.fillStyle = '#333';
+
+        ctx.beginPath();
+
+        ctx.moveTo(tox, toy);
+
+        ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+
+        ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+
+        ctx.closePath();
+
+        ctx.fill();
+
+    }
+
+
+
+    // ФУНКЦИИ МАРКЕРОВ
+
+    function redrawMarkers() {
+
+        state.markers.forEach(marker => {
+
+            // Кружок маркера
+
+            ctx.fillStyle = marker.color;
+
+            ctx.beginPath();
+
+            ctx.arc(marker.x, marker.y, 8, 0, Math.PI * 2);
+
+            ctx.fill();
+
+            
+
+            ctx.strokeStyle = '#ffffff';
+
+            ctx.lineWidth = 2;
+
+            ctx.stroke();
+
+
+
+            // Текст над маркером
+
+            ctx.fillStyle = '#000';
+
+            ctx.font = 'bold 14px sans-serif';
+
+            ctx.textAlign = 'center';
+
+            ctx.textBaseline = 'bottom';
+
+            ctx.fillText(marker.label, marker.x, marker.y - 20);
+
+        });
+
+    }
+
+
+
+    function openMarkerModal() { 
+
+        document.getElementById('markerModal').classList.add('active');
+
+        document.getElementById('markerInput').focus();
+
+    }
+
+    function closeMarkerModal() { 
+
+        document.getElementById('markerModal').classList.remove('active'); 
+
+    }
+
+
+
+    function confirmMarker() {
+
+        const txt = document.getElementById('markerInput').value;
+
+        if (txt && state.markerPos) {
+
+            state.markers.push({
+
+                x: state.markerPos.x,
+
+                y: state.markerPos.y,
+
+                label: txt,
+
+                color: state.markerColor
+
             });
 
-            setTimeout(() => {
-                socialScreen.classList.remove("active");
-                socialScreen.classList.add("hidden");
-                testScreen.classList.add("active");
-                startTime = Date.now();
-                startTimer();
-                renderQuestions();
-                showQuestion(0);
-            }, 700);
+            redrawMarkers();
+
+            saveState();
+
         }
 
-        function createParticles() {
-            const button = startButton;
-            const rect = button.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
+        document.getElementById('markerInput').value = '';
 
-            for (let i = 0; i < 25; i++) {
-                const particle = document.createElement("div");
-                particle.className = "particle";
+        closeMarkerModal();
 
-                const size = Math.random() * 24 + 8;
-                particle.style.width = size + "px";
-                particle.style.height = size + "px";
-                particle.style.left = centerX + "px";
-                particle.style.top = centerY + "px";
+    }
 
-                particle.style.backgroundColor = "#fff";
-                particle.style.opacity = "0.7";
 
-                const angle = (Math.PI * 2 * i) / 25;
-                const velocity = Math.random() * 350 + 250;
-                const tx = Math.cos(angle) * velocity;
-                const ty = Math.sin(angle) * velocity;
 
-                particle.style.setProperty("--tx", tx + "px");
-                particle.style.setProperty("--ty", ty + "px");
-                particle.style.animation = `burst 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+    // ИМПОРТ ИЗОБРАЖЕНИЯ
 
-                document.body.appendChild(particle);
+    imageInput.addEventListener('change', (e) => {
 
-                setTimeout(() => particle.remove(), 750);
-            }
+        const file = e.target.files[0];
+
+        if(!file) return;
+
+
+
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+
+            const img = new Image();
+
+            img.onload = () => {
+
+                const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+
+                const x = (canvas.width - img.width * scale) / 2;
+
+                const y = (canvas.height - img.height * scale) / 2;
+
+
+
+                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+
+                redrawMarkers();
+
+                saveState();
+
+                setTool('brush', document.querySelector('.tool-card'));
+
+            };
+
+            img.src = event.target.result;
+
+        };
+
+        reader.readAsDataURL(file);
+
+        imageInput.value = '';
+
+    });
+
+
+
+    // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+
+    function fitCanvas() {
+
+        const wrapper = document.querySelector('.viewport');
+
+        const scale = Math.min(
+
+            (wrapper.clientWidth - 40) / canvas.width,
+
+            (wrapper.clientHeight - 40) / canvas.height
+
+        );
+
+        container.style.transform = `scale(${scale})`;
+
+    }
+
+
+
+    function togglePanel(force) {
+
+        const panel = document.getElementById('sidePanel');
+
+        if (force === true) panel.classList.add('active');
+
+        else if (force === false) panel.classList.remove('active');
+
+        else panel.classList.toggle('active');
+
+    }
+
+
+
+    function openModal() { document.getElementById('textModal').classList.add('active'); }
+
+    function closeModal() { document.getElementById('textModal').classList.remove('active'); }
+
+
+
+    function confirmText() {
+
+        const txt = document.getElementById('mapTextInput').value;
+
+        if (txt) {
+
+            ctx.fillStyle = state.color;
+
+            ctx.font = `bold ${state.size}px sans-serif`;
+
+            ctx.textAlign = 'left';
+
+            ctx.fillText(txt, state.textPos.x, state.textPos.y);
+
+            redrawMarkers();
+
+            saveState();
+
         }
 
-        function renderQuestions() {
-            let html = "";
-            questions.forEach((q, index) => {
-                html += `<div class="question-block" id="question-${index}">
-                    <div class="question-number">Вопрос ${index + 1} из 30</div>
-                    <div class="question-text">${q.question}</div>
-                    <div class="options">
-                        ${q.options.map((opt, i) => `
-                            <div class="option" data-question="${index}" data-answer="${i}">${opt}</div>
-                        `).join("")}
-                    </div>
-                </div>`;
-            });
+        document.getElementById('mapTextInput').value = '';
 
-            questionsContainer.innerHTML = html;
+        closeModal();
 
-            document.querySelectorAll(".option").forEach(option => {
-                option.addEventListener("click", function() {
-                    const question = parseInt(this.dataset.question);
-                    const answer = parseInt(this.dataset.answer);
+    }
 
-                    answers[question] = answer;
 
-                    document.querySelectorAll(`[data-question="${question}"]`).forEach(opt => {
-                        opt.classList.remove("selected");
-                    });
-                    this.classList.add("selected");
 
-                    updateProgress();
-                });
-            });
-        }
+    function saveState() {
 
-        function showQuestion(index) {
-            document.querySelectorAll(".question-block").forEach(q => {
-                q.classList.remove("active");
-            });
+        if (state.history.length > 30) state.history.shift();
 
-            document.getElementById(`question-${index}`).classList.add("active");
-            currentQuestion = index;
+        state.history.push(canvas.toDataURL());
 
-            document.getElementById("currentQuestion").textContent = index + 1;
+        state.redoStack = [];
 
-            if (answers[index] !== null) {
-                document.querySelectorAll(`[data-question="${index}"]`)[answers[index]].classList.add("selected");
-            }
+    }
 
-            prevButton.disabled = index === 0;
-            nextButton.textContent = index === 29 ? "ЗАВЕРШИТЬ" : "ДАЛЬШЕ";
 
-            updateProgress();
-        }
 
-        function nextQuestion() {
-            if (currentQuestion < 29) {
-                showQuestion(currentQuestion + 1);
-            } else {
-                finishTest();
-            }
-        }
+    function undo() {
 
-        function prevQuestion() {
-            if (currentQuestion > 0) {
-                showQuestion(currentQuestion - 1);
-            }
-        }
+        if (state.history.length < 2) return;
 
-        function updateProgress() {
-            const progress = ((currentQuestion + 1) / 30) * 100;
-            document.getElementById("progressFill").style.width = progress + "%";
-        }
+        state.redoStack.push(state.history.pop());
 
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                const minutes = Math.floor(elapsed / 60);
-                const seconds = elapsed % 60;
-                document.getElementById("timer").textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-            }, 1000);
-        }
+        const img = new Image();
 
-        function finishTest() {
-            clearInterval(timerInterval);
-            testScreen.classList.remove("active");
-            resultsScreen.classList.add("active");
+        img.src = state.history[state.history.length - 1];
 
-            let correct = 0;
-            answers.forEach((answer, index) => {
-                if (answer === questions[index].correct) {
-                    correct++;
-                }
-            });
+        img.onload = () => {
 
-            const incorrect = 30 - correct;
-            const percentage = Math.round((correct / 30) * 100);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            const minutes = Math.floor(elapsed / 60);
-            const seconds = elapsed % 60;
+            ctx.drawImage(img, 0, 0);
 
-            let grade = "2";
-            if (percentage >= 90) grade = "5";
-            else if (percentage >= 75) grade = "4";
-            else if (percentage >= 60) grade = "3";
+            redrawMarkers();
 
-            document.getElementById("percentage").textContent = percentage + "%";
-            document.getElementById("correctCount").textContent = correct;
-            document.getElementById("wrongCount").textContent = incorrect;
-            document.getElementById("totalTime").textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-            document.getElementById("grade").textContent = grade;
+        };
 
-            document.getElementById("downloadButton").addEventListener("click", () => {
-                downloadResults(correct, incorrect, percentage, `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`, grade);
-            });
-        }
+    }
 
-        function downloadResults(correct, incorrect, percentage, time, grade) {
-            let content = "РЕЗУЛЬТАТЫ ТЕСТА ПО ИНФОРМАТИКЕ\n";
-            content += "================================\n\n";
-            content += `Правильно ответено: ${correct}/30\n`;
-            content += `Неправильно ответено: ${incorrect}/30\n`;
-            content += `Процент правильных ответов: ${percentage}%\n`;
-            content += `Затрачено времени: ${time}\n`;
-            content += `Итоговая оценка: ${grade}\n\n`;
-            content += "ДЕТАЛЬНЫЙ АНАЛИЗ ОТВЕТОВ:\n";
-            content += "================================\n\n";
 
-            answers.forEach((answer, index) => {
-                const isCorrect = answer === questions[index].correct;
-                content += `ВОПРОС ${index + 1}\n`;
-                content += `${questions[index].question}\n`;
-                content += `Ваш ответ: ${answer !== null ? questions[index].options[answer] : "Не отвечено"}\n`;
-                content += `Правильный ответ: ${questions[index].options[questions[index].correct]}\n`;
-                content += `Статус: ${isCorrect ? "ВЕРНО" : "НЕВЕРНО"}\n`;
-                content += "---\n\n";
-            });
 
-            const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "rezultaty.txt";
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-    </script>
+    function redo() {
+
+        if (state.redoStack.length === 0) return;
+
+        const data = state.redoStack.pop();
+
+        state.history.push(data);
+
+        const img = new Image();
+
+        img.src = data;
+
+        img.onload = () => {
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.drawImage(img, 0, 0);
+
+            redrawMarkers();
+
+        };
+
+    }
+
+
+
+    function exportCanvas() {
+
+        const link = document.createElement('a');
+
+        link.download = 'my-map-' + new Date().getFullYear() + '.png';
+
+        link.href = canvas.toDataURL('image/png');
+
+        link.click();
+
+    }
+
+
+
+    window.onload = init;
+
+</script>
+
 </body>
+
 </html>
